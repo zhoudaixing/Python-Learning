@@ -3,26 +3,36 @@ import sys
 import pygame
 
 from settings import Settings
+from ship import Ship
 
-def run_game():
-    # 初始化游戏并创建一个屏幕对象
-    pygame.init()
-    ai_settings = Settings()
-    screen = pygame.display.set_mode(
-        (ai_settings.screen_width, ai_settings.screen_height))
-    pygame.display.set_caption("Alien Invasion")
+class AlienInvasion:
+    def __init__(self):
+        pygame.init()
+        self.clock = pygame.time.Clock()
+        self.settings = Settings()
+        self.screen = pygame.display.set_mode(
+        (self.settings.screen_width, self.settings.screen_height))
+        pygame.display.set_caption("Alien Invasion")
+
+        self.ship = Ship(self)
+        
+    def run_game(self):
 
     # 开始游戏的主循环
-    while True:
+        while True:
 
-        # 监视键盘和鼠标事件
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                sys.exit()
+            # 监视键盘和鼠标事件
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    sys.exit()
 
-        screen.fill(ai_settings.bg_color)
+            self.screen.fill(self.settings.bg_color)
+            self.ship.blitme()
 
-        # 让最近绘制的屏幕可见
-        pygame.display.flip()
+            # 让最近绘制的屏幕可见
+            pygame.display.flip()
+            self.clock.tick(60)
 
-run_game()
+if __name__ == '__main__':
+    ai = AlienInvasion()
+    ai.run_game()
